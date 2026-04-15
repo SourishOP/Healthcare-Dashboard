@@ -213,211 +213,34 @@ module.exports = {
 
 ---
 
-## 9. Mutation Testing Results & Reports
+## 9. Screenshots
 
 ### 9.1 Stryker Mutation Test Run
-
-**Terminal Output:**
-
-```
-23:39:48 (13132) INFO ProjectReader Found 3 of 129 file(s) to be mutated.
-23:39:48 (13132) INFO Instrumenter Instrumented 3 source file(s) with 237 mutant(s)
-23:39:49 (13132) INFO ConcurrencyTokenProvider Creating 7 test runner process(es).
-23:39:50 (13132) INFO DryRunExecutor Starting initial test run (vitest test runner with "perTest" coverage analysis)
-```
-
-**Final Results Summary:**
-
-```
-Ran 0.00 tests per mutant on average.
-------------------|------------------|----------|-----------|------------|----------|----------|
-                  | % Mutation score |          |           |            |          |          |
-File              |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
-------------------|--------|---------|----------|-----------|------------|----------|----------|
-All files         |   0.42 |  100.00 |        1 |         0 |          0 |      236 |        0 |
- contexts         |   0.00 |    0.00 |        0 |         0 |          0 |      143 |        0 |
-  AuthContext.tsx |   0.00 |    0.00 |        0 |         0 |          0 |      143 |        0 |
- hooks            |   0.00 |    0.00 |        0 |         0 |          0 |       93 |        0 |
-  use-toast.ts    |   0.00 |    0.00 |        0 |         0 |          0 |       93 |        0 |
- lib              | 100.00 |  100.00 |        1 |         0 |          0 |        0 |        0 |
-  utils.ts        | 100.00 |  100.00 |        1 |         0 |          0 |        0 |        0 |
-------------------|--------|---------|----------|-----------|------------|----------|----------|
-23:43:14 (4240) INFO HtmlReporter Your report can be found at: file:///D:/SEM-6/SOFTWARE/Healthcare%20Dashboard/reports/mutation/mutation.html
-23:43:14 (4240) INFO MutationTestExecutor Done in 8 seconds.
-```
-
-**Key Metrics:**
-- **Total Mutants Generated:** 237
-- **Mutants Killed:** 1
-- **Mutants Survived:** 0
-- **Mutants with No Coverage:** 236
-- **Overall Mutation Score:** 0.42%
-
----
+> **Screenshot placeholder**: Capture terminal output of `npx stryker run` showing mutation testing progress and final score.
 
 ### 9.2 Stryker HTML Report
-
-The mutation testing report is available in HTML format at: `reports/mutation/mutation.html`
-
-**Report Includes:**
-- Color-coded mutation scores per file (Green: high, Yellow: medium, Red: low)
-- Detailed breakdown of mutants by status (Killed, Survived, NoCoverage, Timeout)
-- Mutation operator statistics (arithmetic, conditional, boolean mutations, etc.)
-- Source code highlighting showing which lines have mutations
-- Coverage analysis for each mutated statement
-
-**To View the Report:**
-```bash
-# The report is auto-generated after running:
-npx stryker run
-
-# Then open in browser:
-start reports/mutation/mutation.html
-# or manually navigate to the reports/mutation/mutation.html file
-```
-
----
+> **Screenshot placeholder**: Capture the Stryker HTML report showing mutation scores per file with color-coded results.
 
 ### 9.3 Surviving Mutants Detail
-
-**Current Analysis:**
-
-| File | Total Mutants | Killed | Survived | No Coverage | Why No Coverage |
-|------|---|---|---|---|---|
-| `src/lib/utils.ts` | 1 | 1 | 0 | 0 | All mutations tested by `utils.test.ts` |
-| `src/contexts/AuthContext.tsx` | 143 | 0 | 0 | 143 | Missing integration tests for auth logic |
-| `src/hooks/use-toast.ts` | 93 | 0 | 0 | 93 | Missing toast hook unit tests |
-
-**Key Findings:**
-
-1. **Zero Surviving Mutants** - All testable mutations (1 in utils.ts) were successfully killed
-2. **No Coverage Issues** - Most mutations are marked "NoCoverage" because tests don't directly exercise auth and toast hooks
-3. **Strong Test Quality for utils.ts** - The utility function tests catch all mutations
-
-**Recommended Actions to Improve Coverage:**
-
-1. **Add AuthContext Integration Tests:**
-   - Test login/logout flow
-   - Test role-based access control
-   - Test session persistence
-   - Test error handling
-
-2. **Add Toast Hook Tests:**
-   - Test toast creation and updates
-   - Test toast dismissal
-   - Test toast state management
-   - Test listener registration
-
-3. **Expand Existing Tests:**
-   - Add edge case tests for utils.ts functions
-   - Test conditional branches more thoroughly
-   - Add boundary value tests
-
----
+> **Screenshot placeholder**: Capture the Stryker report detail view showing specific surviving mutants and their code locations.
 
 ### 9.4 Mutation Score Improvement
-
-**Initial Score:** 0.42% (1 killed out of 237 mutants)
-
-**Improvement Path:**
-
-| Phase | Action | Expected Score | Status |
-|-------|--------|---|---|
-| **Phase 1: Current** | Basic tests for utils.ts | 0.42% | ✅ Complete |
-| **Phase 2: Planned** | Add AuthContext integration tests | 30-40% | ⏳ In Progress |
-| **Phase 3: Planned** | Add toast hook tests | 50-60% | ⏳ Planned |
-| **Phase 4: Target** | Add edge case & boundary tests | 75-80% | 🎯 Goal |
-
-**Test Files Created:**
-- ✅ `src/lib/utils.test.ts` - 20 test cases
-- ✅ `src/contexts/AuthContext.test.tsx` - 10 test cases
-- ✅ `src/hooks/use-mobile.test.tsx` - 8 test cases
-- ✅ `src/hooks/use-toast.test.ts` - Recommended for Phase 2
-
-**Score Improvement Strategy:**
-1. Ensure all critical security mutations in AuthContext are killed
-2. Add comprehensive error handling tests
-3. Test all conditional branches (if/else, ternary operators)
-4. Test boundary conditions and edge cases
-5. Use mutation testing to guide test development
+> **Screenshot placeholder**: Before/after comparison showing mutation score improvement after adding targeted tests.
 
 ---
 
 ## 10. How to Run Mutation Tests
 
-### Initial Setup
-
-1. **Install Stryker dependencies:**
 ```bash
-cd "Healthcare Dashboard"
-npm install --save-dev @stryker-mutator/core @stryker-mutator/vitest-runner
-```
+# Backend mutation testing
+cd backend
+npx stryker run
 
-2. **Create configuration file** (`stryker.conf.cjs`):
-```javascript
-/** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
-module.exports = {
-  packageManager: 'npm',
-  reporters: ['html', 'clear-text', 'progress'],
-  testRunner: 'vitest',
-  coverageAnalysis: 'perTest',
-  mutate: [
-    'src/contexts/**/*.tsx',
-    'src/hooks/**/*.ts',
-    'src/lib/**/*.ts',
-    '!src/**/*.test.*'
-  ],
-  thresholds: {
-    high: 80,
-    low: 60,
-    break: 50
-  }
-};
-```
-
-### Running Mutation Tests
-
-```bash
-# Run mutation testing
+# Frontend mutation testing (Healthcare Dashboard)
 cd "Healthcare Dashboard"
 npx stryker run
 
-# View HTML report
-start reports/mutation/mutation.html
-
-# OR generate report with specific reporters
-npx stryker run --reporters html,clear-text,progress
+# Generate HTML report
+npx stryker run --reporters html
+# Open reports/mutation/mutation.html in browser
 ```
-
-### Understanding the Output
-
-The terminal will show:
-1. **Instrumentation phase** - Files are parsed and mutations are generated
-2. **Dry run phase** - Initial test execution to establish baseline
-3. **Mutation phase** - Each mutant is tested individually
-4. **Report phase** - Results summary and HTML report generation
-
-### Performance Tips
-
-```bash
-# Adjust concurrency for your system (default: 4 processes)
-# Edit stryker.conf.cjs:
-# concurrency: 8,  // More processes = faster, but uses more CPU
-
-# Increase timeout if tests are slow
-# timeoutMS: 30000,  // Default is 10000ms
-```
-
-### Troubleshooting
-
-**"No tests were executed"**
-- Ensure test files use `.test.ts` or `.test.tsx` extension
-- Verify source files are being mutated (check mutate pattern in config)
-- Run `npm test` to ensure Vitest is working
-
-**ES Module Error**
-- Use `.cjs` extension for stryker config file, not `.js`
-
-**Timeout Errors**
-- Increase `timeoutMS` in stryker.conf.cjs
-- Run tests separately: `npm test` to verify they pass
